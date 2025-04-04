@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center">Upload Your Data</h1>
+    <form method="POST" enctype="multipart/form-data" class="mt-4">
+        <div class="form-group">
+            <label for="fileInput">Select File to Upload (Excel format):</label>
+            <input type="file" name="file" id="fileInput" class="form-control-file">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Upload</button>
+    </form>
+    {% if error_message %}
+    <div class="alert alert-danger mt-4" role="alert">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    {% if data_preview %}
+    <div class="mt-4">
+        <h3>Preview of Uploaded Data:</h3>
+        {{ data_preview|safe }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Selection Results</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 900px;
+        }
+        .model-metrics {
+            margin-bottom: 30px;
+        }
+        .metric-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .metric-value {
+            margin-left: 10px;
+        }
+        .best-model {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            color: #0d6efd;
+            margin-top: 20px;
+        }
+        .reason {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Model Selection Results</h1>
+        <p class="text-muted">{{ data_type_message }}</p>
+
+        <!-- Best Model Announcement -->
+        {% if best_model %}
+            <div class="alert alert-info text-center best-model">
+                The best model is: <span class="text-success">{{ best_model }}</span>
+            </div>
+            <p class="reason">
+                Reason: {{ reason }}
+            </p>
+        {% endif %}
+
+        <!-- SARIMA Metrics -->
+        <div class="model-metrics">
+            <h3 class="metric-header">SARIMA Model Metrics</h3>
+            {% if sarima_metrics.Error %}
+                <p class="text-danger">Error: {{ sarima_metrics.Error }}</p>
+            {% else %}
+                <p><strong>RMSE:</strong> <span class="metric-value">{{ sarima_metrics.RMSE }}</span></p>
+                <p><strong>MAPE:</strong> <span class="metric-value">{{ sarima_metrics.MAPE }}</span></p>
+                <p><strong>AIC:</strong> <span class="metric-value">{{ sarima_metrics.AIC }}</span></p>
+            {% endif %}
+        </div>
+
+        <!-- OLS Metrics -->
+        <div class="model-metrics">
+            <h3 class="metric-header">OLS Model Metrics</h3>
+            {% if ols_metrics.Error %}
+                <p class="text-danger">Error: {{ ols_metrics.Error }}</p>
+            {% else %}
+                <p><strong>RMSE:</strong> <span class="metric-value">{{ ols_metrics.RMSE }}</span></p>
+                <p><strong>MAPE:</strong> <span class="metric-value">{{ ols_metrics.MAPE }}</span></p>
+                <p><strong>AIC:</strong> <span class="metric-value">{{ ols_metrics.AIC }}</span></p>
+            {% endif %}
+        </div>
+
+        <!-- VAR Metrics -->
+        <div class="model-metrics">
+            <h3 class="metric-header">VAR Model Metrics</h3>
+            {% if var_metrics.Error %}
+                <p class="text-danger">Error: {{ var_metrics.Error }}</p>
+            {% else %}
+                <p><strong>RMSE:</strong> <span class="metric-value">{{ var_metrics.RMSE }}</span></p>
+                <p><strong>MAPE:</strong> <span class="metric-value">{{ var_metrics.MAPE }}</span></p>
+                <p><strong>AIC:</strong> <span class="metric-value">{{ var_metrics.AIC }}</span></p>
+            {% endif %}
+        </div>
+
+        <!-- VECM Metrics -->
+        <div class="model-metrics">
+            <h3 class="metric-header">VECM Model Metrics</h3>
+            {% if vecm_metrics %}
+                {% if vecm_metrics.Error %}
+                    <p class="text-danger">Error: {{ vecm_metrics.Error }}</p>
+                {% else %}
+                    <p><strong>RMSE:</strong> <span class="metric-value">{{ vecm_metrics.RMSE }}</span></p>
+                    <p><strong>MAPE:</strong> <span class="metric-value">{{ vecm_metrics.MAPE }}</span></p>
+                    <p><strong>AIC:</strong> <span class="metric-value">{{ vecm_metrics.AIC }}</span></p>
+                    <p><strong>Cointegration Rank:</strong> <span class="metric-value">{{ vecm_metrics['Cointegration Rank'] }}</span></p>
+                {% endif %}
+            {% else %}
+                <p class="text-warning">No VECM results available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

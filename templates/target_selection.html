@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Target and Exogenous Variables</title>
+</head>
+<body>
+    <h2>Select Target and Exogenous Variables</h2>
+    <form action="{{ url_for('stationarity') }}" method="post">
+        <label for="target">Select Target Variable:</label>
+        <select name="target">
+            {% for column in columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        
+        <h3>Select Exogenous Variables:</h3>
+        {% for column in columns %}
+            <input type="checkbox" name="exog_vars" value="{{ column }}">{{ column }}<br>
+        {% endfor %}
+        
+        <button type="submit">Proceed to Stationarity Check</button>
+    </form>
+    <h3>Data Preview</h3>
+    {{ data_preview|safe }}
+</body>
+</html>
